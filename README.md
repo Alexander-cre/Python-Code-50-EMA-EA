@@ -1,7 +1,9 @@
+<img src='https://github.com/Alexander-cre/Python-Code-50-EMA-EA/blob/main/Figure_1.png' alt='/' />
+
 <h1> Forex EA README 🌟 </h1>
 <b> Overview</b> 📈<br />
 
-This Forex Expert Advisor (EA) is designed to trade the EURUSD currency pair with an impressive accuracy rate of 80%. It utilizes advanced algorithms to analyze market conditions and execute trades automatically, ensuring timely and precise entries and exits. 🚀
+This Forex Expert Advisor (EA) is designed to trade the XAUUSD currency pair with an impressive accuracy rate of 80%. It utilizes advanced algorithms to analyze market conditions and execute trades automatically, ensuring timely and precise entries and exits. 🚀
 
 <b> Features </b> ✨<br />
 High Accuracy: Achieves an 80% success rate in trade execution. 🎯<br />
