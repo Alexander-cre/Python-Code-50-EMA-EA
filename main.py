@@ -1,50 +1,55 @@
-import MetaTrader5 as mt5 # type: ignore
-import pandas as pd # type: ignore
-import numpy as np # type: ignore
+import MetaTrader5 as mt5 
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
 
-# Initialize MT5 connection
-if not mt5.initialize():
-    print("initialize() failed!")
+# Define your credentials
+login = 31747620
+server = 'Deriv-Demo'
+password = 'IronMan4Life@Lex'
+
+# Initialize connection to MetaTrader 5
+if not mt5.initialize(login=login, server=server, password=password):
+    print("Initialization failed")
+    print("Error code:", mt5.last_error())
     mt5.shutdown()
+    exit()  # Exit if initialization fails
 
-# Define the symbol and tiemframe
-symbol = "EURUSD" 
+# Define the symbol and timeframe
+symbol = "XAUUSD" 
 timeframe = mt5.TIMEFRAME_M1
-num_bars = 1000
+num_bars = 10000
 
-# fetch Historicl Data
+# Fetch Historical Data
 rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, num_bars)
 
-# Convert to a pands Dataframes
+# Convert to a pandas DataFrame
 data = pd.DataFrame(rates)
-data['time'] = pd.to_datetime(data['time'], unit = 's')
-data.set_index('time' , inplace=True)
+data['time'] = pd.to_datetime(data['time'], unit='s')
+data.set_index('time', inplace=True)
 
-# Calculate the 50 period-EMA 
-data['EMA_50'] = data['close'].ewm(span=50, adjust=False).mean()
+# Calculate the 50 period EMA 
+data['EMA_200'] = data['close'].ewm(span=50, adjust=False).mean()
 
-# Print the Last few Rowsto see EMA
-print(data[['close' , 'EMA_50']].tail())
+# Print the last few rows to see EMA
+print(data[['close', 'EMA_200']].tail())
 
 # Export to CSV
 csv_file_path = 'ema.csv'
-data[['close', 'EM_50']].to_csv(csv_file_path)
+data[['close', 'EMA_200']].to_csv(csv_file_path)  # Corrected column name
 
 print(f"Data exported to {csv_file_path}")
 
 # Optional plot EMA using Matplotlib
-import matplotlib.pyplot as plt # type: ignore
-
-plt.figure(figsize=(12,6))
+plt.figure(figsize=(12, 6))
 plt.plot(data.index, data['close'], label='Close Price', color='blue')
-plt.plot(data.index, data['EMA_50'], label='EMA_50', color='red')
-plt.title(f'{symbol} Price and 50 EMA ')
+plt.plot(data.index, data['EMA_200'], label='EMA_200', color='red')
+plt.title(f'{symbol} Price and 200 EMA')
 plt.xlabel('Time')
 plt.ylabel('Price')
 plt.legend(loc='upper left')
 plt.grid()
 plt.show()
 
-# Shutdown connection to MetaTrader5
+# Shutdown connection to MetaTrader 5
 mt5.shutdown()
-
